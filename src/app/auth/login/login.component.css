@@ -1,0 +1,61 @@
+.or-divider {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+  text-align: center;
+  padding: 0 1.5rem;
+}
+
+.or-divider span {
+  padding: 0 1rem;
+  color: #6B7280;
+  font-size: 0.9rem;
+}
+
+.or-divider::before,
+.or-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.create-account-container {
+  text-align: center;
+  margin: 1rem 1.5rem;
+}
+
+.no-account-text {
+  margin-bottom: 0.75rem;
+  color: #6B7280;
+  font-size: 0.9rem;
+}
+
+.create-account-button {
+  width: 100%;
+  color: #0066CC;
+  border: 1px solid #0066CC;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.create-account-button:hover {
+  background-color: #f0f7ff;
+}
+
+.privacy-policy {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #6B7280;
+  margin: 1rem 1.5rem 0.5rem;
+}
+
+.privacy-policy a {
+  color: #0066CC;
+  text-decoration: none;
+}
+
+.privacy-policy a:hover {
+  text-decoration: underline;
+} 

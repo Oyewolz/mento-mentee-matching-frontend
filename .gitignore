@@ -3,3 +3,6 @@ node_modules
 .idea/misc.xml
 .idea/modules.xml
 .idea/vcs.xml
+/.angular/
+/.angular/cache/
+/.angular/cache/19.2.0/**

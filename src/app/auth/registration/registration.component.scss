@@ -1,0 +1,185 @@
+.registration-page {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+.brand-section {
+  display: none;
+  position: relative;
+  overflow: hidden;
+  background-color: #777777;
+}
+
+.brand-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  color: white;
+}
+
+.logo-container {
+  margin-bottom: 1.5rem;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 12px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.logo img {
+  max-width: 80%;
+  max-height: 80%;
+}
+
+.brand-text h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.brand-text p {
+  font-size: 1.125rem;
+  opacity: 0.9;
+  margin-top: 0;
+}
+
+.registration-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #ffffff;
+}
+
+.registration-card {
+  width: 100%;
+  max-width: 550px;
+  padding: 2rem;
+}
+
+.registration-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  background-color: transparent;
+}
+
+.registration-header h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+  background-color: transparent;
+}
+
+.welcome-heading {
+  color: #333333;
+  background-color: transparent;
+}
+
+.registration-header p {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin: 0;
+  background-color: transparent;
+}
+
+.registration-form {
+  margin-bottom: 1.5rem;
+}
+
+.name-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  margin-bottom: 0.75rem;
+}
+
+.register-button {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  background-color: #0066cc !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-to-login-button {
+  width: 100%;
+  margin-top: 12px;
+  color: #0066CC;
+  border: 1px solid #0066CC;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.back-to-login-button:hover {
+  background-color: #f0f7ff;
+}
+
+.spinner {
+  margin-right: 8px;
+  display: inline-block;
+}
+
+.terms-text {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #6c757d;
+  line-height: 1.5;
+  margin-top: 1.5rem;
+}
+
+.terms-text a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.terms-text a:hover {
+  text-decoration: underline;
+}
+
+.w-full {
+  width: 100%;
+}
+
+/* Responsive styles */
+@media (min-width: 1024px) {
+  .registration-page {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .brand-section {
+    display: block;
+  }
+}
+
+/* For smaller screens, adjust the name row to stack */
+@media (max-width: 600px) {
+  .name-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+} 

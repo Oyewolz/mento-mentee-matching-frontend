@@ -1,0 +1,109 @@
+<div class="registration-page">
+  <!-- Left Column - Gray Background with Branding -->
+  <div class="brand-section">
+    <div class="brand-overlay">
+      <div class="logo-container">
+        <div class="logo">
+          <img src="assets/logo.png" alt="Logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDY2Y2MiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMjIgMTJoLTRsLTMgOUw5IDNsLTMgOUgyIi8+PC9zdmc+'; this.onerror='';">
+        </div>
+      </div>
+      <div class="brand-text">
+        <h1>Nurse Orientation System</h1>
+        <p>Professional Development Platform</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Column - Registration Form -->
+  <div class="registration-content">
+    <div class="registration-card">
+      <div class="registration-header">
+        <h1 class="welcome-heading">Create Account</h1>
+        <p>Join the Nurse Orientation System</p>
+      </div>
+
+      <form (ngSubmit)="register()" class="registration-form">
+        <!-- First Name and Last Name in a row -->
+        <div class="name-row">
+          <div class="form-group">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>First Name</mat-label>
+              <input matInput [(ngModel)]="firstName" name="firstName" required>
+              <mat-error *ngIf="firstNameError">{{firstNameError}}</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-group">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Last Name</mat-label>
+              <input matInput [(ngModel)]="lastName" name="lastName" required>
+              <mat-error *ngIf="lastNameError">{{lastNameError}}</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Username -->
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Username</mat-label>
+            <input matInput [(ngModel)]="username" name="username" required>
+            <mat-icon matSuffix>person</mat-icon>
+            <mat-error *ngIf="usernameError">{{usernameError}}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Email</mat-label>
+            <input matInput [(ngModel)]="email" name="email" type="email" required>
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="emailError">{{emailError}}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" name="password" required>
+            <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
+              <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="passwordError">{{passwordError}}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Confirm Password</mat-label>
+            <input matInput [type]="showConfirmPassword ? 'text' : 'password'" [(ngModel)]="confirmPassword" name="confirmPassword" required>
+            <button mat-icon-button matSuffix (click)="toggleConfirmPasswordVisibility()" type="button">
+              <mat-icon>{{ showConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="confirmPasswordError">{{confirmPasswordError}}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <button mat-flat-button color="primary" type="submit" class="register-button" [disabled]="isLoading">
+          <span *ngIf="isLoading">
+            <mat-spinner diameter="20" class="spinner"></mat-spinner>
+            Creating Account...
+          </span>
+          <span *ngIf="!isLoading">Create Account</span>
+        </button>
+        
+        <button mat-stroked-button color="primary" type="button" class="back-to-login-button" (click)="backToLogin()">
+          Back to Login
+        </button>
+      </form>
+
+      <div class="terms-text">
+        By creating an account, you agree to our 
+        <a href="#">Terms of Service</a> and 
+        <a href="#">Privacy Policy</a>.
+      </div>
+    </div>
+  </div>
+</div> 
