@@ -1,0 +1,13 @@
+<!-- orientee-profile.component.html -->
+<form (ngSubmit)="onSaveProfile()">
+    <label for="learningStyle">Learning Style:</label>
+    <select id="learningStyle" [(ngModel)]="learningStyle" name="learningStyle">
+      <option value="visual">Visual</option>
+      <option value="auditory">Auditory</option>
+      <!-- etc... -->
+    </select>
+    <!-- Additional fields... -->
+    <button type="submit">Save Profile</button>
+  </form>
+  <button (click)="onRequestMatch()">Request Match</button>
+  
