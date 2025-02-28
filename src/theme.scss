@@ -1,0 +1,100 @@
+@use '@angular/material' as mat;
+@include mat.core();
+
+// Define custom palettes using Angular Material's palette generator
+$primary-colors: (
+  50: #f0f7ff,
+  100: #e0effe,
+  200: #bae0fd,
+  300: #7cc2fc,
+  400: #36a3f8,
+  500: #0d84e3,
+  600: #0068c2,
+  700: #00529e,
+  800: #004583,
+  900: #003b6c,
+  contrast: (
+    50: rgba(0, 0, 0, 0.87),
+    100: rgba(0, 0, 0, 0.87),
+    200: rgba(0, 0, 0, 0.87),
+    300: rgba(0, 0, 0, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+);
+
+$accent-colors: (
+  50: #f5f3ff,
+  100: #ede9fe,
+  200: #ddd6fe,
+  300: #c4b5fd,
+  400: #a78bfa,
+  500: #8b5cf6,
+  600: #7c3aed,
+  700: #6d28d9,
+  800: #5b21b6,
+  900: #4c1d95,
+  contrast: (
+    50: rgba(0, 0, 0, 0.87),
+    100: rgba(0, 0, 0, 0.87),
+    200: rgba(0, 0, 0, 0.87),
+    300: rgba(0, 0, 0, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+);
+
+// Create the palettes
+$my-primary: mat.define-palette($primary-colors, 600);
+$my-accent: mat.define-palette($accent-colors, 500);
+$my-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme
+$my-theme: mat.define-light-theme((
+  color: (
+    primary: $my-primary,
+    accent: $my-accent,
+    warn: $my-warn,
+  ),
+  typography: mat.define-typography-config(
+    $font-family: 'Inter, system-ui, sans-serif',
+  ),
+  density: 0,
+));
+
+// Apply the theme
+@include mat.all-component-themes($my-theme);
+
+// Custom shadcn-inspired styles
+.mat-mdc-button, .mat-mdc-raised-button, .mat-mdc-outlined-button, .mat-mdc-unelevated-button {
+  border-radius: 0.5rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  padding: 0 1.25rem !important;
+  height: 40px !important;
+}
+
+.mat-mdc-outlined-button {
+  border-width: 1px !important;
+}
+
+.mat-mdc-form-field {
+  border-radius: 0.5rem !important;
+}
+
+.mat-mdc-card {
+  border-radius: 0.75rem !important;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+}
+
+.mat-mdc-dialog-container .mat-mdc-dialog-surface {
+  border-radius: 0.75rem !important;
+} 

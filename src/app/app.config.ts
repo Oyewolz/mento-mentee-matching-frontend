@@ -1,12 +1,26 @@
-import { ApplicationConfig, provideZoneChangeDetection, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideHttpClient } from '@angular/common/http';
+
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }),
-     provideRouter(routes),
-     importProvidersFrom(FormsModule)
+    provideRouter([
+      { path: '', redirectTo: '/login', pathMatch: 'full' },
+      { 
+        path: 'login', 
+        loadComponent: () => import('./auth/login/login.component').then(c => c.LoginComponent) 
+      },
+      { 
+        path: 'registration', 
+        loadComponent: () => import('./auth/registration/registration.component').then(c => c.RegistrationComponent) 
+      },
+      // Add other routes here
+      { path: '**', redirectTo: '/login' } // Fallback route
+    ]),
+    provideAnimations(),
+    provideHttpClient()
   ]
 };
