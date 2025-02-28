@@ -29,7 +29,7 @@ export class LoginComponent {
           if (response && response.token) {
             this.authService.setToken(response.token);
             // Navigate to a protected page, e.g., '/dashboard'
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/orientee']);
           } else {
             this.errorMessage = 'Invalid login response';
           }
