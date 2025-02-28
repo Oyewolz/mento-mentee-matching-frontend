@@ -343,7 +343,7 @@ export class LoginComponent {
       alert('Please enter both username and password');
       return;
     }
-    
+
     alert('Login successful! Username: ' + this.username);
     // Navigate to home page after login
     // this.router.navigate(['/home']);
@@ -362,7 +362,7 @@ export class LoginComponent {
   createAccount() {
     // Navigate to the registration page
     this.router.navigate(['/registration']);
-    
+
     // You can also add any additional logic here if needed
     console.log('Navigating to registration page');
   }

@@ -5,7 +5,7 @@
       <h1>Nurse Orientation System</h1>
       <p class="text-muted">Welcome back</p>
     </div>
-    
+
     <mat-card-content>
       <form (ngSubmit)="onLogin()" class="login-form">
         <mat-form-field appearance="outline" class="w-full">
@@ -13,7 +13,7 @@
           <input matInput [(ngModel)]="username" name="username" required>
           <mat-icon matSuffix>person</mat-icon>
         </mat-form-field>
-        
+
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>Password</mat-label>
           <input matInput [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" name="password" required>
@@ -21,32 +21,32 @@
             <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
         </mat-form-field>
-        
+
         <button mat-flat-button color="primary" type="submit" class="w-full" [disabled]="loading">
           <span *ngIf="loading">Loading...</span>
           <span *ngIf="!loading">Sign in</span>
         </button>
-        
+
         <button mat-stroked-button color="primary" type="button" class="w-full create-account-button" (click)="createAccount()">
           Create Account
         </button>
-        
+
         <div *ngIf="errorMessage" class="login-error">
           {{ errorMessage }}
         </div>
       </form>
-      
+
       <div class="or-divider">
         <span>Or</span>
       </div>
-      
+
       <div class="create-account-container">
         <p class="no-account-text">Don't have an account?</p>
         <button mat-stroked-button class="create-account-button" routerLink="/registration">
           Create Account
         </button>
       </div>
-      
+
       <div class="privacy-policy">
         By clicking continue, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
       </div>
