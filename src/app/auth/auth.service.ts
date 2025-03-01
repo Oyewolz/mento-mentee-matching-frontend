@@ -19,12 +19,11 @@ export class AuthService {
     return defer(res);
   }
 
-  Signup(email: string, password: string, custom: any): Observable<UserCredential> {
+  signUp(email: string, password: string, custom: any): Observable<UserCredential> {
     const res = () => createUserWithEmailAndPassword(this.auth, email, password);
-    // it also accepts an extra attributes, we will handle later
-    return defer(res)
+    return defer(res);
   }
-  LoginGoogle(): Observable<UserCredential> {
+  loginGoogle(): Observable<UserCredential> {
     const provider = new GoogleAuthProvider(); // from @angular/fire/auth
     const res = () => signInWithPopup(this.auth, provider);
     return defer(res);

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 interface Specialty {
   name: string;
@@ -29,7 +30,7 @@ interface Preceptor {
   templateUrl: './orientee-landing.component.html',
   styleUrls: ['./orientee-landing.component.scss'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, NavbarComponent],
 })
 export class OrienteeLandingComponent implements OnInit {
   isMatched = false;
