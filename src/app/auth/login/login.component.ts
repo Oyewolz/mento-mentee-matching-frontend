@@ -7,6 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -336,17 +338,37 @@ export class LoginComponent {
   password: string = '';
   showPassword: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService, private snackBar: MatSnackBar) {}
 
   login() {
-    if (!this.username || !this.password) {
-      alert('Please enter both username and password');
-      return;
-    }
-
-    alert('Login successful! Username: ' + this.username);
-    // Navigate to home page after login
-    // this.router.navigate(['/home']);
+    this.authService.login(this.username, this.password)
+      .subscribe({
+        next: (response) => {
+          // Store token
+          this.authService.setToken(response.token);
+          
+          // Show success message
+          this.snackBar.open('Login successful!', 'Close', {
+            duration: 3000,
+          });
+          
+          // Navigate to appropriate page based on role
+          const user = this.authService.getCurrentUser();
+          if (user && user.role === 'preceptor') {
+            this.router.navigate(['/preceptor/matches']);
+          } else if (user && user.role === 'orientee') {
+            this.router.navigate(['/orientee/dashboard']);
+          } else {
+            this.router.navigate(['/dashboard']);
+          }
+        },
+        error: (error) => {
+          console.error('Login error', error);
+          this.snackBar.open('Login failed. Please check your credentials.', 'Close', {
+            duration: 5000,
+          });
+        }
+      });
   }
 
   loginWithGoogle() {

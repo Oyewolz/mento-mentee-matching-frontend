@@ -1,0 +1,197 @@
+<div class="preceptor-matches-container">
+  <h1 class="title">Preceptor Matching Program</h1>
+  
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Checking your match status...</p>
+  </div>
+  
+  <div *ngIf="!isLoading" class="content-container">
+    <!-- Matched State -->
+    <div *ngIf="isMatched" class="match-info">
+      <h2>You've been matched with a preceptor!</h2>
+      
+      <div class="preceptor-card full-profile">
+        <div class="preceptor-header">
+          <div class="preceptor-avatar">
+            <img [src]="preceptor?.imageUrl || 'assets/images/default-avatar.png'" alt="Preceptor photo">
+          </div>
+          <div class="preceptor-name">
+            <h3>{{ preceptor?.name }}, {{ preceptor?.title }}</h3>
+            <p class="specialty">{{ preceptor?.specialty?.name }}</p>
+            <p class="department">{{ preceptor?.department }}</p>
+            <p class="experience">{{ preceptor?.experience }} years of experience</p>
+          </div>
+        </div>
+        
+        <div class="preceptor-overview">
+          <p>{{ preceptor?.overview }}</p>
+        </div>
+        
+        <div class="preceptor-details">
+          <div class="detail-item">
+            <span class="label">Email:</span>
+            <span class="value">{{ preceptor?.email }}</span>
+          </div>
+          <div class="detail-item" *ngIf="preceptor?.phoneNumber">
+            <span class="label">Phone:</span>
+            <span class="value">{{ preceptor?.phoneNumber }}</span>
+          </div>
+        </div>
+        
+        <div class="preceptor-section">
+          <h4>Clinical Background</h4>
+          <ul>
+            <li *ngFor="let point of preceptor?.clinicalBackground">{{ point }}</li>
+          </ul>
+        </div>
+        
+        <div class="preceptor-section">
+          <h4>Teaching Style</h4>
+          <ul>
+            <li *ngFor="let point of preceptor?.teachingStyle">{{ point }}</li>
+          </ul>
+        </div>
+        
+        <div class="preceptor-section">
+          <h4>Personality & Mentorship</h4>
+          <ul>
+            <li *ngFor="let point of preceptor?.personality">{{ point }}</li>
+          </ul>
+        </div>
+        
+        <div class="preceptor-section">
+          <h4>Professional Highlights</h4>
+          <ul>
+            <li *ngFor="let point of preceptor?.highlights">{{ point }}</li>
+          </ul>
+        </div>
+        
+        <div class="preceptor-actions">
+          <button class="action-button email-button">
+            <span class="icon">✉️</span>
+            Email Preceptor
+          </button>
+          <button class="action-button schedule-button">
+            <span class="icon">📅</span>
+            Schedule Meeting
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Potential Matches State -->
+    <div *ngIf="!isMatched && potentialMatches.length > 0 && !showMatchDetails" class="potential-matches">
+      <h2>Potential Preceptor Matches</h2>
+      <p class="instruction">Based on your profile, we've found these potential preceptors. Review their profiles and select one that best fits your learning needs.</p>
+      
+      <div class="matches-grid">
+        <div *ngFor="let match of potentialMatches" class="match-card">
+          <div class="match-header">
+            <div class="match-avatar">
+              <img [src]="match.imageUrl || 'assets/images/default-avatar.png'" alt="Preceptor photo">
+            </div>
+            <div class="match-info">
+              <h3>{{ match.name }}, {{ match.title }}</h3>
+              <p class="specialty">{{ match.specialty.name }}</p>
+              <p class="department">{{ match.department }}</p>
+            </div>
+          </div>
+          
+          <div class="match-overview">
+            {{ match.overview.substring(0, 120) }}...
+          </div>
+          
+          <div class="match-actions">
+            <button class="view-button" (click)="showPreceptorDetails(match)">View Details</button>
+            <button class="select-button" (click)="selectPreceptor(match)">Select</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Preceptor Detail View (when browsing potential matches) -->
+    <div *ngIf="!isMatched && showMatchDetails" class="preceptor-detail-view">
+      <button class="back-button" (click)="hidePreceptorDetails()">← Back to Matches</button>
+      
+      <div class="preceptor-card full-profile">
+        <div class="preceptor-header">
+          <div class="preceptor-avatar">
+            <img [src]="preceptor?.imageUrl || 'assets/images/default-avatar.png'" alt="Preceptor photo">
+          </div>
+          <div class="preceptor-name">
+            <h3>{{ preceptor?.name }}, {{ preceptor?.title }}</h3>
+            <p class="specialty">{{ preceptor?.specialty?.name }}</p>
+            <p class="department">{{ preceptor?.department }}</p>
+            <p class="experience">{{ preceptor?.experience }} years of experience</p>
+          </div>
+        </div>
+        
+        <div class="preceptor-overview">
+          <p>{{ preceptor?.overview }}</p>
+        </div>
+        
+        <div class="preceptor-details">
+          <div class="detail-item">
+            <span class="label">Email:</span>
+            <span class="value">{{ preceptor?.email }}</span>
+          </div>
+          <div class="detail-item" *ngIf="preceptor?.phoneNumber">
+            <span class="label">Phone:</span>
+            <span class="value">{{ preceptor?.phoneNumber }}</span>
+          </div>
+        </div>
+        
+        <div class="preceptor-section">
+          <h4>Clinical Background</h4>
+          <ul>
+            <li *ngFor="let point of preceptor?.clinicalBackground">{{ point }}</li>
+          </ul>
+        </div>
+        
+        <div class="preceptor-section">
+          <h4>Teaching Style</h4>
+          <ul>
+            <li *ngFor="let point of preceptor?.teachingStyle">{{ point }}</li>
+          </ul>
+        </div>
+        
+        <div class="preceptor-section">
+          <h4>Personality & Mentorship</h4>
+          <ul>
+            <li *ngFor="let point of preceptor?.personality">{{ point }}</li>
+          </ul>
+        </div>
+        
+        <div class="preceptor-section">
+          <h4>Professional Highlights</h4>
+          <ul>
+            <li *ngFor="let point of preceptor?.highlights">{{ point }}</li>
+          </ul>
+        </div>
+        
+        <div class="match-actions centered">
+          <button class="select-button large" [disabled]="matchInProgress" (click)="selectPreceptor(preceptor!)">
+            <span *ngIf="!matchInProgress">Select This Preceptor</span>
+            <span *ngIf="matchInProgress">Processing...</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Unmatched State (no potential matches yet) -->
+    <div *ngIf="!isMatched && potentialMatches.length === 0" class="match-request">
+      <h2>Find Your Preceptor</h2>
+      <p class="instruction">You haven't been matched with a preceptor yet. Click below to start the matching process.</p>
+      
+      <button [disabled]="matchInProgress" (click)="requestMatch()" class="match-button">
+        <span *ngIf="!matchInProgress">Find a Preceptor Match</span>
+        <span *ngIf="matchInProgress">Finding your match...</span>
+      </button>
+      
+      <div *ngIf="error" class="error-message">
+        {{ error }}
+      </div>
+    </div>
+  </div>
+</div> 
