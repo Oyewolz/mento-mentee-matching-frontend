@@ -13,7 +13,7 @@ export class AuthService {
 
   private baseUrl = 'http://localhost:8080/api/auth'; // Update to match your backend
 
-  constructor(private restService: RestService) {}
+  constructor(private restService: RestService) { }
 
   login(username: string, password: string): Observable<any> {
     // Mock login for testing
@@ -25,11 +25,12 @@ export class AuthService {
         role: 'admin'
       }
     });
+
     const loginData = { username, password };
     return this.restService.post(`${this.baseUrl}/login`, loginData);
   }
 
-  signup(username: string, password: string ): Observable<any>  {
+  signup(username: string, password: string): Observable<any> {
     const loginData = { username, password };
     return this.restService.post(`${this.baseUrl}/login`, loginData);
   }
@@ -50,5 +51,14 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return !!this.getToken();
+  }
+
+
+  getCurrentUser(): any {
+    const userString = localStorage.getItem('user');
+    if (userString) {
+      return JSON.parse(userString);
+    }
+    return null;
   }
 }
