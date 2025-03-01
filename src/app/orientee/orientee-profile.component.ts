@@ -4,6 +4,8 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } 
 import { Router } from '@angular/router';
 import { OrienteeService } from './orientee.service';
 import { NotificationService } from '../shared/notification.service';
+import { NavbarComponent } from '../navbar/navbar.component';
+import { AuthService } from '../auth/auth.service';
 
 interface LearningStyle {
   id: string;
@@ -21,7 +23,7 @@ interface ClinicalInterest {
   templateUrl: './orientee-profile.component.html',
   styleUrls: ['./orientee-profile.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule]
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, NavbarComponent]
 })
 export class OrienteeProfileComponent implements OnInit {
   profileForm!: FormGroup;
@@ -92,18 +94,23 @@ export class OrienteeProfileComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router, 
     private orientationService: OrienteeService, 
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.initForm();
+    this.prepopulateEmail();
   }
 
   private initForm(): void {
+
+
+
     this.profileForm = this.fb.group({
       first_name: ['', [Validators.required]],
       last_name: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
+      email: [{value: '', disabled: true}, [Validators.required, Validators.email]],
       phone_number: ['', [Validators.required]],
       learning_style: ['', [Validators.required]],
       clinical_background: [[], [Validators.required]],
@@ -142,7 +149,7 @@ const personalityTraitsList = Object.keys(this.profileForm.value.personality)
     .filter(trait => this.profileForm.value.personality[trait]);
 
     const profileData = {
-      ...this.profileForm.value,
+      ...this.profileForm.getRawValue(),
       clinical_background: clinicalInterestsList,
       personality: personalityTraitsList
     };
@@ -153,7 +160,7 @@ const personalityTraitsList = Object.keys(this.profileForm.value.personality)
         console.log('Profile saved:', response);
         this.notificationService.showSuccess('Profile saved successfully');
         if(profileData.type === 'PRECEPTOR') {
-          this.router.navigate(['/preceptor']);
+          this.router.navigate(['/dev/preceptor-matches']);
         }else{
         const orienteeId = response.data.id;
         console.log('Orientee ID:', orienteeId);
@@ -186,5 +193,12 @@ const personalityTraitsList = Object.keys(this.profileForm.value.personality)
   isInterestSelected(interestId: string): boolean {
     const currentInterests = this.profileForm.get('clinical_background')?.value as ClinicalInterest[];
     return currentInterests?.some(i => i.id === interestId);
+  }
+  private prepopulateEmail(): void {
+    this.authService.getUserEmail().subscribe((email) => {
+      if (email) {
+        this.profileForm.patchValue({ email });
+      }
+    });
   }
 } 

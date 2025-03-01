@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-dev-preceptor-matches',
@@ -13,9 +14,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatCardModule,
     MatButtonModule, 
     MatIconModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    NavbarComponent
   ],
   template: `
+      <app-navbar></app-navbar> 
     <div class="preceptor-matches-container">
       <h1>Your Matched Orientees (Development View)</h1>
       

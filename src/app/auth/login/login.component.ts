@@ -41,34 +41,50 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-  constructor(private router: Router, private authService: AuthService, private notificationService: NotificationService) {}
+  constructor(private router: Router, private authService: AuthService,
+     private notificationService: NotificationService) {}
 
   login() {
     this.authService.login(this.username, this.password)
       .subscribe({
         next: (response) => {
           // Store token
-          //this.authService.setToken(response.token);
+          console.log('Login successful', response);
 
           // Show success message
-          this.notificationService.showSuccess('Login successful');
+          this.notificationService.showSuccess('Retrieving user information...');
 
-          // Navigate to appropriate page based on role
-       //   const user = this.authService.getCurrentUser();
-       const user = {role: 'orientee'};
-          if (user && user.role === 'preceptor') {
-            this.router.navigate(['/preceptor/matches']);
-          } else if (user && user.role === 'orientee') {
-            this.router.navigate(['/orientee/profile']);
-          } else {
-            this.router.navigate(['/dashboard']);
-          }
+          this.retrieveUserInformation(response);  
+
         },
         error: (error) => {
           console.error('Login error', error);
           this.notificationService.showError('Invalid username or password');
         }
       });
+  }
+  retrieveUserInformation(response: any) {
+          // Navigate to appropriate page based on role
+       
+          this.authService.retrieveUserProfile(response.user.email as string).subscribe({
+            next: (resp:any) => {
+    
+              console.log('User profile retrieved', resp);
+              
+              const user = {role: resp.type};
+              if (user && user.role === 'PRECEPTOR') {
+                this.router.navigate(['/dev/preceptor-matches']);
+              } else if (user && user.role === 'ORIENTEE') {
+                this.router.navigate(['/orientee/profile']);
+              } else {
+                this.notificationService.showError('Invalid user role');
+              }
+    
+            },
+            error: (err:any) => {
+              this.router.navigate(['/orientee/profile']);
+            }
+           }); 
   }
 
   loginWithGoogle() {

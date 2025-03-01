@@ -248,7 +248,7 @@ export class OrienteeLandingComponent implements OnInit {
         console.log('Potential matches:', response);
         this.availablePreceptors = response.data.map((preceptor: any) => this.adaptPreceptor(preceptor));
         const shuffled = [...this.availablePreceptors];
-        this.potentialMatches = shuffled.slice(0, 2);
+        this.potentialMatches = shuffled.slice(0, 3);
         this.notificationService.showSuccess('Potential matches found');
       },
       error: (error) => {
@@ -260,24 +260,26 @@ export class OrienteeLandingComponent implements OnInit {
   requestMatch(): void {
     this.matchInProgress = true;
     this.error = null;
+  
+   
+    // // Mock API call to request a match - replace with actual service
+    // setTimeout(() => {
+    //   // For demo purposes, randomly decide if match successful
+    //   const matchSuccessful = Math.random() > 0.3;
+      
+    //   if (matchSuccessful) {
+    //     this.isMatched = true;
+    //     // Select a random preceptor from our available preceptors
+    //     this.preceptor = this.availablePreceptors[
+    //       Math.floor(Math.random() * this.availablePreceptors.length)
+    //     ];
+    //   } else {
+    //     this.error = 'Unable to find a match at this time. Please try again later.';
+    //   }
+      
+    //   this.matchInProgress = false;
+    // }, 2000);
     
-    // Mock API call to request a match - replace with actual service
-    setTimeout(() => {
-      // For demo purposes, randomly decide if match successful
-      const matchSuccessful = Math.random() > 0.3;
-      
-      if (matchSuccessful) {
-        this.isMatched = true;
-        // Select a random preceptor from our available preceptors
-        this.preceptor = this.availablePreceptors[
-          Math.floor(Math.random() * this.availablePreceptors.length)
-        ];
-      } else {
-        this.error = 'Unable to find a match at this time. Please try again later.';
-      }
-      
-      this.matchInProgress = false;
-    }, 2000);
   }
 
   showPreceptorDetails(preceptor: Preceptor): void {
@@ -292,19 +294,42 @@ export class OrienteeLandingComponent implements OnInit {
   selectPreceptor(preceptor: Preceptor): void {
     this.matchInProgress = true;
     
-    // Mock API call to request a specific preceptor
-    setTimeout(() => {
-      this.isMatched = true;
-      this.preceptor = preceptor;
-      this.matchInProgress = false;
-    }, 1500);
+    // // Mock API call to request a specific preceptor
+    // setTimeout(() => {
+    //   this.isMatched = true;
+    //   this.preceptor = preceptor;
+    //   this.matchInProgress = false;
+    // }, 1500);
+
+    console.log('calling endpoint request match: ', this.orienteeId);
+
+    this.orientationService.match(this.orienteeId,preceptor.id ).subscribe({
+      next: (response) => {
+        this.notificationService.showSuccess(response.message);
+        
+        if(response.status != "00"){
+          this.matchInProgress = false;
+          return; 
+        }
+
+        this.isMatched = true;
+          this.preceptor = preceptor;
+          this.matchInProgress = false;
+        this.notificationService.showSuccess(response.message);
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.notificationService.showError('An error occurred while fetching potential matches. Please try again.');
+      }});
+
+
   }
 
   private adaptPreceptor(preceptor: any): any {
     const randomImageUrl = this.imageUrls[Math.floor(Math.random() * this.imageUrls.length)];
 
     return {
-      id: `p00${preceptor.id}`,
+      id: `${preceptor.id}`,
       name: `${preceptor.first_name} ${preceptor.last_name}`,
       title: 'RN',
       email: preceptor.email,

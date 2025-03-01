@@ -22,7 +22,7 @@ export class OrienteeService {
   }
 
   match(orienteeId: string, mentorId: string): Observable<any> {
-    return this.restService.post(`${this.baseUrl}/match`, { orienteeId, mentorId });
+    return this.restService.post(`${this.baseUrl}/match`, { orientee_id: orienteeId, preceptor_id: mentorId });
   }
 
   getOrientees(preceptorId: string): Observable<any> {

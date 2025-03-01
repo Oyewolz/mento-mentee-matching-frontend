@@ -3,6 +3,7 @@ import { defer, Observable } from 'rxjs';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, UserCredential } from 'firebase/auth';
 import { RestService } from '../shared/http/rest.service';
 import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,18 @@ export class AuthService {
     const provider = new GoogleAuthProvider(); // from @angular/fire/auth
     const res = () => signInWithPopup(this.auth, provider);
     return defer(res);
+  }
+
+  retrieveUserProfile(email: string): Observable<any> {
+    return this.restService.get(environment.baseUrl+`/user/details/${email}`);
+  }
+
+  getUserEmail(): Observable<string | null> {
+    return new Observable((subscriber) => {
+      this.auth.onAuthStateChanged((user) => {
+        subscriber.next(user ? user.email : null);
+      });
+    });
   }
 
   isLoggedIn(): Observable<boolean> {
