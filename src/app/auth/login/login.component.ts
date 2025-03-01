@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
 import { AuthService } from '../auth.service';
+import { NotificationService } from '../../shared/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -29,43 +30,52 @@ export class LoginComponent implements OnInit {
   password: string = '';
   showPassword: boolean = false;
 
-  constructor(private router: Router, private authService: AuthService
-  ) { }
+  
   ngOnInit(): void {
     this.authService.isLoggedIn().subscribe({
       next: (isLoggedIn) => {
         if (isLoggedIn) {
           //TODO Get the type of user and navigate to the appropriate page
-          this.router.navigate(['/onboarding']); // for now   
+         // this.router.navigate(['/onboarding']); // for now
         }
       }
     });
   }
+  constructor(private router: Router, private authService: AuthService, private notificationService: NotificationService) {}
 
   login() {
-    if (!this.username || !this.password) {
-      alert('Please enter both username and password');
-      return;
-    }
-
     this.authService.login(this.username, this.password)
       .subscribe({
-        next: (resp) => {
-          console.log('Login successful');
-          this.router.navigate(['/user-profile']);
+        next: (response) => {
+          // Store token
+          //this.authService.setToken(response.token);
+
+          // Show success message
+          this.notificationService.showSuccess('Login successful');
+
+          // Navigate to appropriate page based on role
+       //   const user = this.authService.getCurrentUser();
+       const user = {role: 'orientee'};
+          if (user && user.role === 'preceptor') {
+            this.router.navigate(['/preceptor/matches']);
+          } else if (user && user.role === 'orientee') {
+            this.router.navigate(['/orientee/profile']);
+          } else {
+            this.router.navigate(['/dashboard']);
+          }
         },
         error: (error) => {
-          alert('Invalid username or password');
-        },
+          console.error('Login error', error);
+          this.notificationService.showError('Invalid username or password');
+        }
       });
-
   }
 
   loginWithGoogle() {
-    this.authService.LoginGoogle().subscribe({
+    this.authService.loginGoogle().subscribe({
       next: (resp) => {
         console.log('Login successful');
-        this.router.navigate(['/onboarding']);
+        this.router.navigate(['/orientee']);
       },
       error: (error) => {
         alert('Invalid username or password');

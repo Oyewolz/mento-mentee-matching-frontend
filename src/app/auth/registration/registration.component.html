@@ -58,7 +58,9 @@
             <mat-label>Email</mat-label>
             <input matInput [(ngModel)]="email" name="email" type="email" required>
             <mat-icon matSuffix>email</mat-icon>
-            <mat-error *ngIf="emailError">{{emailError}}</mat-error>
+            @if(emailError){
+            <mat-error >{{emailError}}</mat-error>
+            }
           </mat-form-field>
         </div>
 
@@ -70,7 +72,9 @@
             <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
               <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
-            <mat-error *ngIf="passwordError">{{passwordError}}</mat-error>
+          
+            <mat-error >{{passwordError}}</mat-error>
+            
           </mat-form-field>
         </div>
 
@@ -82,7 +86,9 @@
             <button mat-icon-button matSuffix (click)="toggleConfirmPasswordVisibility()" type="button">
               <mat-icon>{{ showConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
-            <mat-error *ngIf="confirmPasswordError">{{confirmPasswordError}}</mat-error>
+            @if(confirmPasswordError){
+              <mat-error>{{confirmPasswordError}}</mat-error>
+            }
           </mat-form-field>
         </div>
 

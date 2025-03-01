@@ -21,15 +21,15 @@ export const appConfig: ApplicationConfig = {
     provideFirebaseApp(() =>
       initializeApp(environment.firebase)),
 
-    provideAuth(() => getAuth()),
+      provideAuth(() => getAuth()),
 
 
-    provideFirestore(() =>
-      initializeFirestore(getApp(), {
-        localCache: persistentLocalCache({
-          tabManager: persistentMultipleTabManager(),
-        }),
-      })),
+      provideFirestore(() =>
+          initializeFirestore(getApp(), {
+              localCache: persistentLocalCache({
+                  tabManager: persistentMultipleTabManager(),
+              }),
+          })),
   ]
 
 };

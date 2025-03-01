@@ -1,0 +1,154 @@
+<div class="profile-container">
+  <h1 class="title">Orientation Profile Setup</h1>
+  <p class="subtitle">Complete your profile to help us match you with the perfect preceptor</p>
+  
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+    <div class="form-section">
+      <h2>Personal Information</h2>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" formControlName="firstName" class="form-control">
+          <div *ngIf="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched" class="error-message">
+            First name is required
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" formControlName="lastName" class="form-control">
+          <div *ngIf="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched" class="error-message">
+            Last name is required
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" formControlName="email" class="form-control">
+          <div *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched" class="error-message">
+            Please enter a valid email address
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" formControlName="phone" class="form-control">
+          <div *ngIf="profileForm.get('phone')?.invalid && profileForm.get('phone')?.touched" class="error-message">
+            Phone number is required
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="yearsExperience">Years of Experience</label>
+        <input type="number" id="yearsExperience" formControlName="yearsExperience" class="form-control" min="0">
+      </div>
+    </div>
+    
+    <div class="form-section">
+      <h2>Learning Preferences</h2>
+      
+      <div class="form-group">
+        <label>Learning Style</label>
+        <div class="learning-styles">
+          <div *ngFor="let style of learningStyles" class="learning-style-option">
+            <input type="radio" [id]="style.id" [value]="style.id" formControlName="learningStyle">
+            <label [for]="style.id" class="learning-style-label">
+              <h3>{{ style.name }}</h3>
+              <p>{{ style.description }}</p>
+            </label>
+          </div>
+        </div>
+        <div *ngIf="profileForm.get('learningStyle')?.invalid && profileForm.get('learningStyle')?.touched" class="error-message">
+          Please select your primary learning style
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-section">
+      <h2>Clinical Interests</h2>
+      <p class="section-description">Select all areas that interest you (minimum one)</p>
+      
+      <div class="clinical-interests">
+        <div *ngFor="let interest of clinicalInterests" class="interest-option" 
+             [class.selected]="isInterestSelected(interest.id)"
+             (click)="toggleClinicalInterest(interest)">
+          {{ interest.name }}
+        </div>
+      </div>
+      <div *ngIf="profileForm.get('clinicalInterests')?.invalid && profileForm.get('clinicalInterests')?.touched" class="error-message">
+        Please select at least one clinical interest
+      </div>
+    </div>
+    
+    <div class="form-section">
+      <h2>Availability & Schedule</h2>
+      
+      <div class="form-group">
+        <label for="availability">Preferred Schedule</label>
+        <select id="availability" formControlName="availability" class="form-control">
+          <option value="">Select your availability</option>
+          <option *ngFor="let option of availabilityOptions" [value]="option">{{ option }}</option>
+        </select>
+        <div *ngIf="profileForm.get('availability')?.invalid && profileForm.get('availability')?.touched" class="error-message">
+          Please select your availability
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-section">
+      <h2>Personality Traits</h2>
+      <p class="section-description">Select all traits that describe you</p>
+      
+      <div formGroupName="personalityTraits" class="personality-traits">
+        <div class="trait-option">
+          <input type="checkbox" id="teamOriented" formControlName="teamOriented">
+          <label for="teamOriented">Team-oriented</label>
+        </div>
+        <div class="trait-option">
+          <input type="checkbox" id="detailFocused" formControlName="detailFocused">
+          <label for="detailFocused">Detail-focused</label>
+        </div>
+        <div class="trait-option">
+          <input type="checkbox" id="adaptable" formControlName="adaptable">
+          <label for="adaptable">Adaptable</label>
+        </div>
+        <div class="trait-option">
+          <input type="checkbox" id="selfDirected" formControlName="selfDirected">
+          <label for="selfDirected">Self-directed</label>
+        </div>
+        <div class="trait-option">
+          <input type="checkbox" id="analyticalThinker" formControlName="analyticalThinker">
+          <label for="analyticalThinker">Analytical thinker</label>
+        </div>
+        <div class="trait-option">
+          <input type="checkbox" id="creativeApproach" formControlName="creativeApproach">
+          <label for="creativeApproach">Creative approach</label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-section">
+      <h2>Additional Information</h2>
+      
+      <div class="form-group">
+        <label for="additionalInfo">Anything else you'd like your preceptor to know?</label>
+        <textarea id="additionalInfo" formControlName="additionalInfo" class="form-control" rows="4"></textarea>
+      </div>
+    </div>
+    
+    <div class="form-actions">
+      <button type="submit" class="submit-button" [disabled]="isSubmitting">
+        <span *ngIf="!isSubmitting">Save Profile & Find Matches</span>
+        <span *ngIf="isSubmitting">Saving Profile...</span>
+      </button>
+    </div>
+    
+    <div *ngIf="submitError" class="submit-error">
+      {{ submitError }}
+    </div>
+  </form>
+</div> 
