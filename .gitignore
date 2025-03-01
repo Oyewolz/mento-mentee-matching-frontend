@@ -6,6 +6,7 @@ node_modules
 .idea/modules.xml
 .idea/vcs.xml
 .angular/
+node_modules/.package-lock.json
 /.angular/cache/
 /.angular/cache/19.2.0/**
 
@@ -102,3 +103,4 @@ yarn-error.log*
 
 # TypeScript specific
 *.tsbuildinfo
+.angular/cache/19.2.0/mento-mentee-matching-frontend/vite/deps_ssr/_metadata.json
