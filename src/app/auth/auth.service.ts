@@ -10,7 +10,7 @@ import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 export class AuthService {
 
   constructor(private restService: RestService,private auth: Auth) {
-  
+
   }
 
   login(username: string, password: string): Observable<UserCredential> {
@@ -29,7 +29,7 @@ export class AuthService {
     const res = () => signInWithPopup(this.auth, provider);
     return defer(res);
   }
-  
+
   isLoggedIn(): Observable<boolean> {
     return new Observable((subscriber) => {
       this.auth.onAuthStateChanged((user) => {
