@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-registration',
@@ -45,7 +46,7 @@ export class RegistrationComponent {
   passwordError: string = '';
   confirmPasswordError: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
@@ -126,16 +127,18 @@ export class RegistrationComponent {
     if (this.validateForm()) {
       this.isLoading = true;
       
-      // Simulate API call
-      setTimeout(() => {
-        this.isLoading = false;
-        
-        // Show success message
-        alert('Account created successfully! You can now log in.');
-        
-        // Navigate to login page
-        this.router.navigate(['/login']);
-      }, 1500);
+      const userDetails = {fristName: this.firstName, lastName: this.lastName, username: this.username};
+      this.authService.Signup(this.email, this.password, userDetails).subscribe({
+        next: (resp) => {
+          console.log('Registration successful');
+          this.router.navigate(['/onboarding']);
+        },
+        error: (error) => {
+          alert('An error occurred. Please try again');
+          this.isLoading = false;
+        },
+      });
+
     }
   }
 } 
