@@ -5,20 +5,38 @@
   <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
     <div class="form-section">
       <h2>Personal Information</h2>
+      <div class="form-group">
+             
+      <div class="form-group">
+        <label>User Type</label>
+        <div class="learning-styles">
+          <div *ngFor="let style of userType" class="learning-style-option">
+            <input type="radio" [id]="style.id" [value]="style.id" formControlName="type">
+            <label [for]="style.id" class="learning-style-label">
+              <h3>{{ style.name }}</h3>
+              <p>{{ style.description }}</p>
+            </label>
+          </div>
+        </div>
+        <div *ngIf="profileForm.get('type')?.invalid && profileForm.get('type')?.touched" class="error-message">
+          Please select your user type
+        </div>
+      </div>
+    </div>
       
       <div class="form-row">
         <div class="form-group">
-          <label for="firstName">First Name</label>
-          <input type="text" id="firstName" formControlName="firstName" class="form-control">
-          <div *ngIf="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched" class="error-message">
+          <label for="first_name">First Name</label>
+          <input type="text" id="first_name" formControlName="first_name" class="form-control">
+          <div *ngIf="profileForm.get('first_name')?.invalid && profileForm.get('first_name')?.touched" class="error-message">
             First name is required
           </div>
         </div>
         
         <div class="form-group">
-          <label for="lastName">Last Name</label>
-          <input type="text" id="lastName" formControlName="lastName" class="form-control">
-          <div *ngIf="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched" class="error-message">
+          <label for="last_name">Last Name</label>
+          <input type="text" id="last_name" formControlName="last_name" class="form-control">
+          <div *ngIf="profileForm.get('last_name')?.invalid && profileForm.get('last_name')?.touched" class="error-message">
             Last name is required
           </div>
         </div>
@@ -34,17 +52,17 @@
         </div>
         
         <div class="form-group">
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" formControlName="phone" class="form-control">
-          <div *ngIf="profileForm.get('phone')?.invalid && profileForm.get('phone')?.touched" class="error-message">
+          <label for="phone_number">Phone Number</label>
+          <input type="tel" id="phone_number" formControlName="phone_number" class="form-control">
+          <div *ngIf="profileForm.get('phone_number')?.invalid && profileForm.get('phone_number')?.touched" class="error-message">
             Phone number is required
           </div>
         </div>
       </div>
       
       <div class="form-group">
-        <label for="yearsExperience">Years of Experience</label>
-        <input type="number" id="yearsExperience" formControlName="yearsExperience" class="form-control" min="0">
+        <label for="years_experience">Years of Experience</label>
+        <input type="number" id="years_experience" formControlName="years_experience" class="form-control" min="0">
       </div>
     </div>
     
@@ -55,14 +73,14 @@
         <label>Learning Style</label>
         <div class="learning-styles">
           <div *ngFor="let style of learningStyles" class="learning-style-option">
-            <input type="radio" [id]="style.id" [value]="style.id" formControlName="learningStyle">
+            <input type="radio" [id]="style.id" [value]="style.id" formControlName="learning_style">
             <label [for]="style.id" class="learning-style-label">
               <h3>{{ style.name }}</h3>
               <p>{{ style.description }}</p>
             </label>
           </div>
         </div>
-        <div *ngIf="profileForm.get('learningStyle')?.invalid && profileForm.get('learningStyle')?.touched" class="error-message">
+        <div *ngIf="profileForm.get('learning_style')?.invalid && profileForm.get('learning_style')?.touched" class="error-message">
           Please select your primary learning style
         </div>
       </div>
@@ -103,7 +121,7 @@
       <h2>Personality Traits</h2>
       <p class="section-description">Select all traits that describe you</p>
       
-      <div formGroupName="personalityTraits" class="personality-traits">
+      <div formGroupName="personality" class="personality-traits">
         <div class="trait-option">
           <input type="checkbox" id="teamOriented" formControlName="teamOriented">
           <label for="teamOriented">Team-oriented</label>
@@ -135,8 +153,8 @@
       <h2>Additional Information</h2>
       
       <div class="form-group">
-        <label for="additionalInfo">Anything else you'd like your preceptor to know?</label>
-        <textarea id="additionalInfo" formControlName="additionalInfo" class="form-control" rows="4"></textarea>
+        <label for="addition_information">Anything else you'd like your preceptor to know?</label>
+        <textarea id="addition_information" formControlName="addition_information" class="form-control" rows="4"></textarea>
       </div>
     </div>
     

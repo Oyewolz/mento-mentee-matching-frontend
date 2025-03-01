@@ -7,6 +7,7 @@ export const environment = {
         storageBucket: "sample-firebase-ai-app-201bc.firebasestorage.app",
         messagingSenderId: "740968081404",
         appId: "1:740968081404:web:a679b34129e900538b7479"
-      }
+      },
+      baseUrl: 'http://localhost:8000/api',
 
 };

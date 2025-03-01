@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { OrienteeService } from './orientee.service';
+import { NotificationService } from '../shared/notification.service';
 
 interface LearningStyle {
   id: string;
@@ -25,6 +27,21 @@ export class OrienteeProfileComponent implements OnInit {
   profileForm!: FormGroup;
   isSubmitting = false;
   submitError: string | null = null;
+
+
+  userType: LearningStyle[] = [
+    { 
+      id: 'PRECEPTOR', 
+      name: 'Mentor', 
+      description: 'You are an experienced nurse who provides guidance and support to orientees.'
+    },
+    { 
+      id: 'ORIENTEE', 
+      name: 'Mentee', 
+      description: 'You are a new nurse seeking guidance and support from a preceptor.'
+    },
+  
+  ];
   
   learningStyles: LearningStyle[] = [
     { 
@@ -73,7 +90,9 @@ export class OrienteeProfileComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router, 
+    private orientationService: OrienteeService, 
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -82,16 +101,17 @@ export class OrienteeProfileComponent implements OnInit {
 
   private initForm(): void {
     this.profileForm = this.fb.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
+      first_name: ['', [Validators.required]],
+      last_name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required]],
-      learningStyle: ['', [Validators.required]],
-      clinicalInterests: [[], [Validators.required]],
+      phone_number: ['', [Validators.required]],
+      learning_style: ['', [Validators.required]],
+      clinical_background: [[], [Validators.required]],
       availability: ['', [Validators.required]],
-      yearsExperience: [0, [Validators.required, Validators.min(0)]],
-      additionalInfo: [''],
-      personalityTraits: this.fb.group({
+      type: ['ORIENTEE', [Validators.required]],
+      years_experience: [0, [Validators.required, Validators.min(0)]],
+      addition_information: [''],
+      personality: this.fb.group({
         teamOriented: [false],
         detailFocused: [false],
         adaptable: [false],
@@ -115,33 +135,54 @@ export class OrienteeProfileComponent implements OnInit {
     this.isSubmitting = true;
     this.submitError = null;
 
-    // Mock API call to save profile
-    setTimeout(() => {
-      // In a real app, you would send this data to your backend
-      console.log('Profile data:', this.profileForm.value);
-      
-      // Navigate to the preceptor matching page after successful profile creation
-      this.router.navigate(['/orientee/matches']);
-      
-      this.isSubmitting = false;
-    }, 1500);
+   const clinicalInterestsList = this.profileForm.value.clinical_background
+   .map((interest: ClinicalInterest)=> interest.name);
+
+const personalityTraitsList = Object.keys(this.profileForm.value.personality)
+    .filter(trait => this.profileForm.value.personality[trait]);
+
+    const profileData = {
+      ...this.profileForm.value,
+      clinical_background: clinicalInterestsList,
+      personality: personalityTraitsList
+    };
+     
+    this.orientationService.saveProfile(profileData).subscribe({
+      next: (response) => {
+        this.isSubmitting = false;
+        console.log('Profile saved:', response);
+        this.notificationService.showSuccess('Profile saved successfully');
+        if(profileData.type === 'PRECEPTOR') {
+          this.router.navigate(['/preceptor']);
+        }else{
+        const orienteeId = response.id;
+        this.router.navigate(['/orientee/matches', orienteeId]);
+        }
+      },
+      error: (error) => {
+        this.isSubmitting = false;
+        this.notificationService.showError('An error occurred while saving your profile. Please try again.');
+      }
+    });
+
+
   }
 
   toggleClinicalInterest(interest: ClinicalInterest): void {
-    const currentInterests = this.profileForm.get('clinicalInterests')?.value as ClinicalInterest[];
+    const currentInterests = this.profileForm.get('clinical_background')?.value as ClinicalInterest[];
     
-    if (currentInterests.some(i => i.id === interest.id)) {
+    if (currentInterests?.some(i => i.id === interest.id)) {
       // Remove interest if already selected
       const updatedInterests = currentInterests.filter(i => i.id !== interest.id);
-      this.profileForm.get('clinicalInterests')?.setValue(updatedInterests);
+      this.profileForm.get('clinical_background')?.setValue(updatedInterests);
     } else {
       // Add interest if not already selected
-      this.profileForm.get('clinicalInterests')?.setValue([...currentInterests, interest]);
+      this.profileForm.get('clinical_background')?.setValue([...currentInterests, interest]);
     }
   }
 
   isInterestSelected(interestId: string): boolean {
-    const currentInterests = this.profileForm.get('clinicalInterests')?.value as ClinicalInterest[];
-    return currentInterests.some(i => i.id === interestId);
+    const currentInterests = this.profileForm.get('clinical_background')?.value as ClinicalInterest[];
+    return currentInterests?.some(i => i.id === interestId);
   }
 } 
