@@ -1,9 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
+
+  { path: 'user-profile', component: UserProfileComponent },
+  
   { 
     path: 'login', 
     loadComponent: () => import('./auth/login/login.component').then(c => c.LoginComponent) 

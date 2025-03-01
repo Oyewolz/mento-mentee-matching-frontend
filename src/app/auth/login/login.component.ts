@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next: (resp) => {
           console.log('Login successful');
-          this.router.navigate(['/home']);
+          this.router.navigate(['/user-profile']);
         },
         error: (error) => {
           alert('Invalid username or password');
