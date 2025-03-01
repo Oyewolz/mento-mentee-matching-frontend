@@ -1,54 +1,43 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { defer, Observable } from 'rxjs';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, UserCredential } from 'firebase/auth';
 import { RestService } from '../shared/http/rest.service';
+import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly TOKEN_KEY = 'auth_token';
 
-  private baseUrl = 'http://localhost:8080/api/auth'; // Update to match your backend
+  constructor(private restService: RestService,private auth: Auth) {
+  
+  }
 
-  constructor(private restService: RestService) {}
+  login(username: string, password: string): Observable<UserCredential> {
+    const res = () => signInWithEmailAndPassword(this.auth, username, password);
+    // build up a cold observable
+    return defer(res);
+  }
 
-  login(username: string, password: string): Observable<any> {
-    // Mock login for testing
-    return of({
-      token: 'mock-jwt-token',
-      user: {
-        id: 1,
-        username: username,
-        role: 'admin'
-      }
+  Signup(email: string, password: string, custom: any): Observable<UserCredential> {
+    const res = () => createUserWithEmailAndPassword(this.auth, email, password);
+    // it also accepts an extra attributes, we will handle later
+    return defer(res)
+  }
+  LoginGoogle(): Observable<UserCredential> {
+    const provider = new GoogleAuthProvider(); // from @angular/fire/auth
+    const res = () => signInWithPopup(this.auth, provider);
+    return defer(res);
+  }
+  
+  isLoggedIn(): Observable<boolean> {
+    return new Observable((subscriber) => {
+      this.auth.onAuthStateChanged((user) => {
+        subscriber.next(!!user);
+      });
     });
-    const loginData = { username, password };
-    return this.restService.post(`${this.baseUrl}/login`, loginData);
   }
-
-  signup(username: string, password: string ): Observable<any>  {
-    const loginData = { username, password };
-    return this.restService.post(`${this.baseUrl}/login`, loginData);
-  }
-
-  logout(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
-  }
-
-
-  // Example method to store token
-  setToken(token: string): void {
-    localStorage.setItem(this.TOKEN_KEY, token);
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
-  }
-
-  isLoggedIn(): boolean {
-    return !!this.getToken();
+  async logout() {
+    return this.auth.signOut();
   }
 }
