@@ -1,151 +1,72 @@
-<!-- src/app/auth/login/login.component.html -->
-<div class="login-container">
-  <mat-card class="login-card">
-    <div class="login-header">
-      <h1>Nurse Orientation System</h1>
-      <p class="text-muted">Welcome back</p>
+<div class="login-page">
+  <!-- Left Column - Gray Background with Branding -->
+  <div class="brand-section">
+    <div class="brand-overlay">
+      <div class="logo-container">
+        <div class="logo">
+          <img src="assets/logo.png" alt="Logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDY2Y2MiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMjIgMTJoLTRsLTMgOUw5IDNsLTMgOUgyIi8+PC9zdmc+'; this.onerror='';">
+        </div>
+      </div>
+      <div class="brand-text">
+        <h1>Nurse Orientation System</h1>
+        <p>Professional Development Platform</p>
+      </div>
     </div>
+  </div>
 
-    <mat-card-content>
-      <form (ngSubmit)="onLogin()" class="login-form">
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Username</mat-label>
-          <input matInput [(ngModel)]="username" name="username" required>
-          <mat-icon matSuffix>person</mat-icon>
-        </mat-form-field>
+  <!-- Right Column - Simple Login Form -->
+  <div class="login-content">
+    <div class="login-card">
+      <div class="login-header">
+        <h1 class="welcome-heading">Welcome</h1>
+        <p>Sign in to continue to Nurse Orientation System</p>
+      </div>
 
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Password</mat-label>
-          <input matInput [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" name="password" required>
-          <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
-            <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-          </button>
-        </mat-form-field>
+      <form (ngSubmit)="login()" class="login-form">
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Username</mat-label>
+            <input matInput [(ngModel)]="username" name="username" required>
+          </mat-form-field>
+        </div>
 
-        <button mat-flat-button color="primary" type="submit" class="w-full" [disabled]="loading">
-          <span *ngIf="loading">Loading...</span>
-          <span *ngIf="!loading">Sign in</span>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" name="password" required>
+            <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
+              <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+
+        <button mat-flat-button color="primary" type="submit" class="login-button">
+          Sign in
         </button>
-
-        <button mat-stroked-button color="primary" type="button" class="w-full create-account-button" (click)="createAccount()">
+        
+        <button mat-stroked-button color="primary" type="button" class="create-account-button" (click)="createAccount()">
           Create Account
         </button>
-
-        <div *ngIf="errorMessage" class="login-error">
-          {{ errorMessage }}
-        </div>
       </form>
 
-      <div class="or-divider">
+      <div class="divider">
         <span>Or</span>
       </div>
 
-      <div class="create-account-container">
-        <p class="no-account-text">Don't have an account?</p>
-        <button mat-stroked-button class="create-account-button" routerLink="/registration">
-          Create Account
+      <div class="login-options">
+        <button mat-stroked-button class="google-signin-button" (click)="loginWithGoogle()">
+          <div class="google-button-content">
+            <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo" class="google-logo">
+            <span>Continue with Google</span>
+          </div>
         </button>
       </div>
 
-      <div class="privacy-policy">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+      <div class="terms-text">
+        By clicking continue, you agree to our 
+        <a href="#">Terms of Service</a> and 
+        <a href="#">Privacy Policy</a>.
       </div>
-    </mat-card-content>
-  </mat-card>
+    </div>
+  </div>
 </div>
-
-<style>
-.signup-section {
-  margin-top: 2rem;
-  text-align: center;
-}
-
-.divider {
-  display: flex;
-  align-items: center;
-  margin: 1.5rem 0;
-}
-
-.divider span {
-  padding: 0 1rem;
-  color: #6B7280;
-  font-size: 0.9rem;
-}
-
-.divider::before,
-.divider::after {
-  content: "";
-  flex: 1;
-  border-bottom: 1px solid #E5E7EB;
-}
-
-.signup-button {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background-color: white;
-  color: #0066CC;
-  border: 1px solid #0066CC;
-  border-radius: 4px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.signup-button:hover {
-  background-color: #f0f7ff;
-}
-
-.signup-info {
-  margin-top: 1rem;
-  font-size: 0.85rem;
-  color: #6B7280;
-  line-height: 1.5;
-}
-
-.or-divider {
-  display: flex;
-  align-items: center;
-  margin: 1.5rem 0;
-}
-
-.or-divider::before,
-.or-divider::after {
-  content: "";
-  flex: 1;
-  border-bottom: 1px solid #E5E7EB;
-}
-
-.or-divider span {
-  padding: 0 1rem;
-  color: #6B7280;
-  font-size: 0.9rem;
-}
-
-.create-account-container {
-  margin-top: 1rem;
-  text-align: center;
-}
-
-.no-account-text {
-  margin-bottom: 0.5rem;
-  font-size: 0.85rem;
-  color: #6B7280;
-}
-
-.create-account-button {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background-color: white;
-  color: #0066CC;
-  border: 1px solid #0066CC;
-  border-radius: 4px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.create-account-button:hover {
-  background-color: #f0f7ff;
-}
-</style>
-  
