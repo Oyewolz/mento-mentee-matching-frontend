@@ -89,7 +89,7 @@ export class PreceptorMatchesComponent implements OnInit {
     setTimeout(() => {
       // For demo purposes, randomly decide if matched
       const mockMatched = Math.random() > 0.7;
-      
+
       if (mockMatched) {
         this.isMatched = true;
         // Randomly select a preceptor from our database
@@ -100,7 +100,7 @@ export class PreceptorMatchesComponent implements OnInit {
         // Generate potential matches
         this.generatePotentialMatches();
       }
-      
+
       this.isLoading = false;
     }, 1000);
   }
@@ -115,12 +115,12 @@ export class PreceptorMatchesComponent implements OnInit {
   requestMatch(): void {
     this.matchInProgress = true;
     this.error = null;
-    
+
     // Mock API call to request a match - replace with actual service
     setTimeout(() => {
       // For demo purposes, randomly decide if match successful
       const matchSuccessful = Math.random() > 0.3;
-      
+
       if (matchSuccessful) {
         this.isMatched = true;
         // Select a random preceptor from our available preceptors
@@ -130,7 +130,7 @@ export class PreceptorMatchesComponent implements OnInit {
       } else {
         this.error = 'Unable to find a match at this time. Please try again later.';
       }
-      
+
       this.matchInProgress = false;
     }, 2000);
   }
@@ -146,7 +146,7 @@ export class PreceptorMatchesComponent implements OnInit {
 
   selectPreceptor(preceptor: Preceptor): void {
     this.matchInProgress = true;
-    
+
     // Mock API call to request a specific preceptor
     setTimeout(() => {
       this.isMatched = true;

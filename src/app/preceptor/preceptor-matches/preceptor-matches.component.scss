@@ -19,7 +19,7 @@
   flex-direction: column;
   align-items: center;
   padding: 2rem;
-  
+
   .spinner {
     width: 40px;
     height: 40px;
@@ -29,7 +29,7 @@
     animation: spin 1s linear infinite;
     margin-bottom: 1rem;
   }
-  
+
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -38,7 +38,7 @@
 
 .match-info, .match-request, .potential-matches, .preceptor-detail-view {
   padding: 1.5rem;
-  
+
   h2 {
     color: #3498db;
     margin-bottom: 1.5rem;
@@ -51,10 +51,10 @@
   border-radius: 8px;
   padding: 1.5rem;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
-  
+
   &.full-profile {
     margin-bottom: 2rem;
   }
 }
 
-// ... rest of the CSS from the original component 
+// ... rest of the CSS from the original component

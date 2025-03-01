@@ -1,0 +1,15 @@
+.onboarding-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f5f5f5; /* Optional: Add a background color for better visibility */
+}
+
+.onboarding-card {
+  width: 800px; /* Set a fixed width for the card */
+  padding: 20px; /* Add some padding for better spacing */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow for better visibility */
+  background-color: #fff; /* Ensure the card has a white background */
+  border-radius: 8px; /* Optional: Add rounded corners */
+}

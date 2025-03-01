@@ -4,10 +4,14 @@ import { LoginComponent } from './auth/login/login.component';
 import { AuthGuard } from './auth/auth.guard';
 import { PreceptorMatchesComponent } from './preceptor/preceptor-matches/preceptor-matches.component';
 import { DevPreceptorMatchesComponent } from './dev/dev-preceptor-matches.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { 
+
+  { path: 'user-profile', component: UserProfileComponent },
+
+  {
     path: 'login', 
     loadComponent: () => import('./auth/login/login.component').then(c => c.LoginComponent) 
   },

@@ -4,6 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { PreceptorDashboardComponent } from './preceptor-dashboard/preceptor-dashboard.component';
+import { PreceptorDashboardComponent } from './preceptor-dashboard/preceptor-dashboard.component';
+import { PreceptorMatchesComponent } from './preceptor-matches/preceptor-matches.component';
+import { PreceptorService } from './preceptor.service';
 
 const preceptorRoutes: Routes = [
   {
@@ -32,3 +35,5 @@ const preceptorRoutes: Routes = [
   ]
 })
 export class PreceptorModule { }
+
+
