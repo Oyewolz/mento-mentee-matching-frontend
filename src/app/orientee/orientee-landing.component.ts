@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { NotificationService } from '../shared/notification.service';
+import { OrienteeService } from './orientee.service';
 
 interface Specialty {
   name: string;
@@ -40,6 +42,14 @@ export class OrienteeLandingComponent implements OnInit {
   error: string | null = null;
   potentialMatches: Preceptor[] = [];
   showMatchDetails = false;
+  orienteeId: string = '';
+
+  private imageUrls: string[] = [
+    'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
+    'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
+    'https://images.unsplash.com/photo-1584516150909-c43483ee7932?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
+    'https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
+  ];
 
   // Updated preceptors with real images
   availablePreceptors: Preceptor[] = [
@@ -205,39 +215,46 @@ export class OrienteeLandingComponent implements OnInit {
     }
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private route: ActivatedRoute, 
+    private orientationService: OrienteeService, private notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {
-    // Check if orientee is already matched
-    this.checkMatchStatus();
+  
+
+    this.orienteeId = this.route.snapshot.paramMap.get('id') as string;
+    console.log('Orientee ID:', this.orienteeId);
+      // Check if orientee is already matched
+      this.checkMatchStatus();
+
   }
 
   private checkMatchStatus(): void {
-    // Mock API call - replace with actual service
-    setTimeout(() => {
-      // For demo purposes, randomly decide if matched
-      const mockMatched = Math.random() > 0.7;
-      
-      if (mockMatched) {
-        this.isMatched = true;
-        // Randomly select a preceptor from our database
-        this.preceptor = this.availablePreceptors[
-          Math.floor(Math.random() * this.availablePreceptors.length)
-        ];
-      } else {
-        // Generate potential matches
-        this.generatePotentialMatches();
-      }
-      
-      this.isLoading = false;
-    }, 1000);
+    
+   this.generatePotentialMatches();
+    
   }
 
   generatePotentialMatches(): void {
     // In a real app, this would use an algorithm to find compatible preceptors
     // For now, we'll randomly select 2 preceptors as potential matches
-    const shuffled = [...this.availablePreceptors].sort(() => 0.5 - Math.random());
-    this.potentialMatches = shuffled.slice(0, 2);
+  
+
+    console.log('calling endpoint Potential matches: ', this.orienteeId);
+
+    this.orientationService.requestMatch(this.orienteeId).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        console.log('Potential matches:', response);
+        this.availablePreceptors = response.data.map((preceptor: any) => this.adaptPreceptor(preceptor));
+        const shuffled = [...this.availablePreceptors];
+        this.potentialMatches = shuffled.slice(0, 2);
+        this.notificationService.showSuccess('Potential matches found');
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.notificationService.showError('An error occurred while fetching potential matches. Please try again.');
+      }});
   }
 
   requestMatch(): void {
@@ -281,5 +298,26 @@ export class OrienteeLandingComponent implements OnInit {
       this.preceptor = preceptor;
       this.matchInProgress = false;
     }, 1500);
+  }
+
+  private adaptPreceptor(preceptor: any): any {
+    const randomImageUrl = this.imageUrls[Math.floor(Math.random() * this.imageUrls.length)];
+
+    return {
+      id: `p00${preceptor.id}`,
+      name: `${preceptor.first_name} ${preceptor.last_name}`,
+      title: 'RN',
+      email: preceptor.email,
+      department: 'Unknown', // Assuming department is not provided
+      phoneNumber: preceptor.phone_number,
+      imageUrl: randomImageUrl, // Placeholder image URL
+      specialty: { name: preceptor.clinical_background },
+      experience: 0, // Assuming experience is not provided
+      overview: preceptor.match_information,
+      clinicalBackground: preceptor.clinical_background.split(', '),
+      teachingStyle: [], // Assuming teaching style is not provided
+      personality: preceptor.personality.split(', '),
+      highlights: [] // Assuming highlights are not provided
+    };
   }
 } 

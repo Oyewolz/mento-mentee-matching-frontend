@@ -155,8 +155,10 @@ const personalityTraitsList = Object.keys(this.profileForm.value.personality)
         if(profileData.type === 'PRECEPTOR') {
           this.router.navigate(['/preceptor']);
         }else{
-        const orienteeId = response.id;
-        this.router.navigate(['/orientee/matches', orienteeId]);
+        const orienteeId = response.data.id;
+        console.log('Orientee ID:', orienteeId);
+
+        this.router.navigate(['/orientee/matches', orienteeId]); 
         }
       },
       error: (error) => {

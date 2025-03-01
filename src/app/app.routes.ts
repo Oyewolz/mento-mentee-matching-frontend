@@ -21,7 +21,7 @@ export const routes: Routes = [
         loadComponent: () => import('./orientee/orientee-profile.component').then(m => m.OrienteeProfileComponent)
       },
       {
-        path: 'matches',
+        path: 'matches/:id',
         loadComponent: () => import('./orientee/orientee-landing.component').then(m => m.OrienteeLandingComponent)
       }
     ]
