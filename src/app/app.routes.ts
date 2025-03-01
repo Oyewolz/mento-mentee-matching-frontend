@@ -16,5 +16,5 @@ export const routes: Routes = [
       import('./orientee/orientee.module').then((m) => m.OrienteeModule)
   },
   // Add routes for manager, educator, etc.
-  { path: '**', redirectTo: 'fallback' } // Catch-all
+  { path: '**', redirectTo: 'onboarding' } // Catch-all
 ];

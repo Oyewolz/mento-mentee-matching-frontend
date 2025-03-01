@@ -37,7 +37,9 @@ export class AuthService {
       });
     });
   }
-  async logout() {
-    return this.auth.signOut();
+   logout() {
+    // we will handle this later
+    const res = () => this.auth.signOut();
+    return defer (res) ;
   }
 }

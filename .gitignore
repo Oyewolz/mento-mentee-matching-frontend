@@ -104,3 +104,4 @@ yarn-error.log*
 # TypeScript specific
 *.tsbuildinfo
 .angular/cache/19.2.0/mento-mentee-matching-frontend/vite/deps_ssr/_metadata.json
+.angular/cache/19.2.0/mento-mentee-matching-frontend/vite/deps_ssr/_metadata.json
